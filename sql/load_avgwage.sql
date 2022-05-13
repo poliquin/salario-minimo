@@ -1,5 +1,6 @@
 -- Load annual, average minimum wages into SQL
 
+DROP TABLE IF EXISTS avg_min_wages;
 CREATE TABLE IF NOT EXISTS avg_min_wages (
     ano year(4) unsigned NOT NULL,
     `minwage_real` decimal(9,2) unsigned DEFAULT NULL
@@ -14,7 +15,8 @@ LOAD DATA LOCAL INFILE 'data/avgwage.tsv'
     INTO TABLE avg_min_wages
     CHARACTER SET 'utf8'
     IGNORE 1 LINES
-    (ano, @minwage_nom, @minwage_real)
+    (ano, @minwage_nom,  @min_reais_nominal,   @max_reais_nominal,
+          @minwage_real, @min_reais_real_inpc, @max_reais_real_inpc)
     SET `minwage_nom` = NULLIF(@minwage_nom, ''),
         `minwage_real` = NULLIF(@minwage_real, '')
     ;
